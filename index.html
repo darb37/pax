@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pax — After-Reading Mission</title>
+<style>
+:root{--ink:#1d2a26;--muted:#586761;--cream:#f7f5ef;--paper:#fffefa;--green:#315d4b;--green2:#dce9df;--gold:#d8a84e;--line:#d8dfd8;--red:#9a453d}
+*{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--ink);font:16px/1.55 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+header{background:linear-gradient(120deg,#183d32,#47745c);color:white;padding:34px 20px 30px}
+.hero{max-width:940px;margin:auto}
+.kicker{text-transform:uppercase;letter-spacing:.14em;font-size:.75rem;font-weight:800;color:#d9e8dc}
+h1{font-size:clamp(2rem,5vw,3.2rem);line-height:1.05;margin:10px 0}
+header p{max-width:680px;margin:12px 0 0;color:#eef5ef}
+main{max-width:940px;margin:24px auto;padding:0 16px 48px}
+.panel,.question,.mission{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:22px;margin:16px 0;box-shadow:0 5px 18px #233b2b0b}
+.topline{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.pill{display:inline-block;background:var(--green2);color:var(--green);border-radius:999px;padding:4px 10px;font-size:.78rem;font-weight:800}
+h2{font-size:1.45rem;margin:0 0 8px}
+h3{font-size:1.12rem;margin:0 0 10px}
+p{margin:8px 0}
+.muted{color:var(--muted);font-size:.93rem}
+.progress-wrap{height:8px;background:#e5e9e3;border-radius:10px;overflow:hidden;margin-top:14px}
+#progress{height:100%;width:0;background:var(--gold);transition:width .25s}
+.mission-title{display:flex;gap:12px;align-items:center;margin-bottom:14px}
+.num{width:36px;height:36px;display:grid;place-items:center;border-radius:50%;background:var(--green);color:white;font-weight:800;flex-shrink:0}
+.question{margin:12px 0;padding:18px}
+.qhead{display:flex;gap:10px;align-items:flex-start}
+.qnum{font-size:.8rem;font-weight:800;color:var(--green);padding-top:3px}
+.qtext{font-weight:700;flex:1}
+.options{display:grid;gap:8px;margin:14px 0 4px}
+.option{display:flex;align-items:flex-start;gap:10px;border:1px solid var(--line);border-radius:12px;padding:11px 12px;cursor:pointer;transition:.15s}
+.option:hover{border-color:var(--green);background:#f7faf6}
+.option input{margin-top:5px;accent-color:var(--green)}
+.option:has(input:checked){border-color:var(--green);background:#edf4ee}
+.feedback{display:none;margin-top:12px;padding:10px 12px;border-radius:10px;font-size:.92rem}
+.feedback.show{display:block}
+.feedback.good{background:#e3f2e5;color:#235b32}
+.feedback.bad{background:#fae8e5;color:#873a32}
+textarea,input[type=text]{width:100%;border:1px solid #bdc9bf;border-radius:11px;padding:12px;font:inherit;background:#fff}
+textarea{min-height:112px;resize:vertical}
+textarea:focus,input:focus{outline:3px solid #d3e5d7;border-color:var(--green)}
+.label{font-weight:700;display:block;margin:14px 0 6px}
+button{border:0;border-radius:999px;padding:12px 18px;font:inherit;font-weight:750;cursor:pointer}
+.primary{background:var(--green);color:white}
+.secondary{background:#e7ece7;color:var(--ink)}
+button:hover{filter:brightness(.96)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}
+#results{display:none}
+.score{font-size:2.5rem;font-weight:850;color:var(--green);line-height:1.2}
+.result-item{border-top:1px solid var(--line);padding:12px 0}
+footer{text-align:center;color:var(--muted);font-size:.82rem;padding:12px}
+@media print{body{background:white}.actions,header .kicker{display:none}.panel,.question,.mission{box-shadow:none;break-inside:avoid}textarea{min-height:70px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="hero">
+    <div class="kicker">After-reading challenge · English & Literature</div>
+    <h1>PAX: Seeing the World<br>Through a Fox’s Eyes</h1>
+    <p>Read closely. Think critically. Use evidence. Your mission is to understand what Pax experiences—and what he cannot understand about the humans he loves.</p>
+  </div>
+</header>
+<main>
+  <section class="panel">
+    <div class="topline"><h2>Mission briefing</h2><span class="pill">20–25 minutes</span></div>
+    <p>This activity is based on the excerpt from <em>Pax</em> by Sara Pennypacker. Complete the multiple-choice questions first, then respond to the open-ended prompts in your own words.</p>
+    <label class="label" for="student">Your name</label>
+    <input type="text" id="student" placeholder="Type your name">
+    <p class="muted">For written answers, explain your reasoning and refer to a specific moment, detail, or phrase from the excerpt. Your teacher will review these responses.</p>
+    <div class="progress-wrap" aria-label="Activity progress"><div id="progress"></div></div>
+    <p class="muted" id="progressText">0 of 10 responses completed</p>
+  </section>
+
+  <section class="mission">
+    <div class="mission-title"><span class="num">1</span><div><h2>Enter Pax’s World</h2><div class="muted">Comprehension · Multiple choice</div></div></div>
+    <div id="mcqs"></div>
+  </section>
+
+  <section class="mission">
+    <div class="mission-title"><span class="num">2</span><div><h2>Decode the Story</h2><div class="muted">Literary analysis · Multiple choice</div></div></div>
+    <div id="mcqs2"></div>
+  </section>
+
+  <section class="mission">
+    <div class="mission-title"><span class="num">3</span><div><h2>Think Beyond the Text</h2><div class="muted">Critical thinking · Open-ended responses</div></div></div>
+    <div class="question">
+      <div class="qhead"><span class="qnum">Q6</span><div class="qtext">How does the third-person limited point of view shape your understanding of the separation? Identify one detail that reveals what Pax understands and one thing he misunderstands.</div></div>
+      <label class="label" for="open6">Your response</label><textarea id="open6" data-open placeholder="Use a specific detail from the excerpt and explain its effect..."></textarea>
+    </div>
+    <div class="question">
+      <div class="qhead"><span class="qnum">Q7</span><div class="qtext">The author describes the father’s clothing as having a “charred metal scent” and a “hard lie-scent.” How do these word choices influence the mood and the reader’s view of the father?</div></div>
+      <label class="label" for="open7">Your response</label><textarea id="open7" data-open placeholder="Explain the connotations of the words and their effect..."></textarea>
+    </div>
+    <div class="question">
+      <div class="qhead"><span class="qnum">Q8</span><div class="qtext">Pax is distracted by the jay and its call, but then rushes back toward the car. What does this moment suggest about the tension between his natural instincts and his bond with Peter?</div></div>
+      <label class="label" for="open8">Your response</label><textarea id="open8" data-open placeholder="Interpret the choice Pax faces and support your idea..."></textarea>
+    </div>
+    <div class="question">
+      <div class="qhead"><span class="qnum">Q9</span><div class="qtext">Was the father’s decision to leave Pax in the woods responsible, harmful, or more complicated than either option? State your position and support it with two reasons. Consider both animal welfare and the bond between Pax and Peter.</div></div>
+      <label class="label" for="open9">Your response</label><textarea id="open9" data-open placeholder="My position is... One reason is... A second reason is..."></textarea>
+    </div>
+    <div class="question">
+      <div class="qhead"><span class="qnum">Q10</span><div class="qtext">Imagine the scene after the car drives away, narrated by Peter instead of Pax. Write 4–6 sentences that reveal Peter’s thoughts and feelings. Include one contrast between what Peter knows and what Pax understands.</div></div>
+      <label class="label" for="open10">Your response</label><textarea id="open10" data-open placeholder="Write in third person or first person, making Peter’s perspective clear..."></textarea>
+    </div>
+  </section>
+
+  <div class="actions">
+    <button class="primary" id="checkBtn">Check multiple-choice answers</button>
+    <button class="secondary" id="saveBtn">Download my responses</button>
+    <button class="secondary" id="printBtn">Print / Save as PDF</button>
+    <button class="secondary" id="resetBtn">Start again</button>
+  </div>
+
+  <section class="panel" id="results" aria-live="polite">
+    <h2>Your results</h2>
+    <div class="score" id="score">—</div>
+    <p id="scoreMsg"></p>
+    <p class="muted">The score covers multiple-choice questions only. Open-ended responses are not automatically graded because they require interpretation and evidence.</p>
+    <div id="review"></div>
+  </section>
+  <footer>Based on the excerpt from <em>Pax</em> by Sara Pennypacker. Respond in your own words and use textual evidence.</footer>
+</main>
+<script>
+const questions = [
+ {id:"q1",n:1,host:"mcqs",q:"Which details most strongly show that Pax experiences the world through senses different from Peter’s?",opts:["He remembers the boy’s favorite toy and games.","He detects changes through his paws, whiskers, vibrations, and smell.","He understands every word the father says.","He notices that Peter has grown taller."],a:1,why:"Pax interprets the journey through touch, vibration, and scent, emphasizing the animal point of view."},
+ {id:"q2",n:2,host:"mcqs",q:"What is the strongest evidence that Peter and Pax share a close bond?",opts:["Pax dislikes the smell of leather.","Peter carries a suitcase and a baseball glove.","Pax tries to comfort Peter and wants to offer protection and affection.","Pax is interested in birds in the woods."],a:2,why:"Pax tries to comfort Peter and would offer protection, distraction, and affection."},
+ {id:"q3",n:3,host:"mcqs",q:"What emotion is Peter most likely experiencing during the car ride?",opts:["Excitement about a game.","Boredom with the journey.","Anxiety and distress.","Anger at Pax for moving."],a:2,why:"Peter cries silently, grips his glove, slumps forward, and repeatedly says “NO.”"},
+ {id:"q4",n:4,host:"mcqs2",q:"Which statement best describes the excerpt’s point of view?",opts:["First-person narration by Peter.","Third-person omniscient narration that equally reveals every character’s thoughts.","Third-person limited narration focused mainly on Pax’s perceptions.","Second-person narration addressing the reader."],a:2,why:"The narrator is outside the story but primarily reveals what Pax senses, thinks, and feels."},
+ {id:"q5",n:5,host:"mcqs2",q:"Why is the fox’s memory of birds important when the jay appears?",opts:["It proves Pax has already met this exact jay.","It reveals his fascination with freedom and creates a conflict between curiosity and loyalty to Peter.","It explains why the father chooses the woods.","It shows that Pax has forgotten Peter."],a:1,why:"The memory shows the powerful pull of the birds and makes Pax’s hesitation understandable."}
+];
+const mcqRoot = document.getElementById("mcqs");
+const mcqRoot2 = document.getElementById("mcqs2");
+questions.forEach(q=>{
+ const wrap=document.createElement("div");wrap.className="question";wrap.id="wrap-"+q.id;
+ const opts=q.opts.map((o,i)=>`<label class="option"><input type="radio" name="${q.id}" value="${i}"><span>${String.fromCharCode(65+i)}. ${o}</span></label>`).join("");
+ wrap.innerHTML=`<div class="qhead"><span class="qnum">Q${q.n}</span><div class="qtext">${q.q}</div></div><div class="options">${opts}</div><div class="feedback" id="fb-${q.id}" aria-live="polite"></div>`;
+ (q.host==="mcqs"?mcqRoot:mcqRoot2).appendChild(wrap);
+});
+const allResponseCount=10;
+function completedCount(){
+ let n=0;
+ questions.forEach(q=>{if(document.querySelector(`input[name="${q.id}"]:checked`))n++});
+ document.querySelectorAll("[data-open]").forEach(t=>{if(t.value.trim().length>0)n++});
+ return n;
+}
+function updateProgress(){
+ const n=completedCount();
+ document.getElementById("progress").style.width=(n/allResponseCount*100)+"%";
+ document.getElementById("progressText").textContent=`${n} of ${allResponseCount} responses completed`;
+}
+document.addEventListener("change",updateProgress);
+document.addEventListener("input",updateProgress);
+document.getElementById("checkBtn").addEventListener("click",()=>{
+ let score=0,answered=0;const review=document.getElementById("review");review.innerHTML="";
+ questions.forEach(q=>{
+  const selected=document.querySelector(`input[name="${q.id}"]:checked`);
+  const fb=document.getElementById("fb-"+q.id);fb.className="feedback show";
+  if(!selected){fb.classList.add("bad");fb.textContent="Not answered yet. "+q.why;return;}
+  answered++;const correct=Number(selected.value)===q.a;if(correct)score++;
+  fb.classList.add(correct?"good":"bad");
+  fb.textContent=(correct?"Correct. ":"Not quite. ")+q.why;
+  const item=document.createElement("div");item.className="result-item";
+  item.textContent=`Q${q.n}: ${correct?"Correct":"Review"} — ${q.why}`;review.appendChild(item);
+ });
+ document.getElementById("score").textContent=`${score} / ${questions.length}`;
+ document.getElementById("scoreMsg").textContent=answered<questions.length?`You answered ${answered} of ${questions.length} multiple-choice questions. Review the feedback and try any unanswered items.`:score===questions.length?"Excellent work. You interpreted the excerpt accurately.":score>=3?"Good progress. Read the feedback and revisit the details in the excerpt.":"Keep investigating. Use the feedback to return to the text and try again.";
+ document.getElementById("results").style.display="block";
+ document.getElementById("results").scrollIntoView({behavior:"smooth",block:"start"});
+});
+function buildResponseText(){
+ const name=document.getElementById("student").value.trim()||"Not provided";
+ let out=`PAX — AFTER-READING MISSION\nStudent: ${name}\n\nMULTIPLE-CHOICE RESPONSES\n`;
+ questions.forEach(q=>{const s=document.querySelector(`input[name="${q.id}"]:checked`);out+=`Q${q.n}: ${s?String.fromCharCode(65+Number(s.value))+". "+q.opts[Number(s.value)]:"Not answered"}\n`;});
+ out+="\nOPEN-ENDED RESPONSES\n";
+ [6,7,8,9,10].forEach(n=>{out+=`\nQ${n}\n${document.getElementById("open"+n).value.trim()||"Not answered"}\n`;});
+ return out;
+}
+document.getElementById("saveBtn").addEventListener("click",()=>{
+ const blob=new Blob([buildResponseText()],{type:"text/plain;charset=utf-8"});
+ const url=URL.createObjectURL(blob);const a=document.createElement("a");
+ a.href=url;a.download="Pax_After_Reading_Responses.txt";document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
+});
+document.getElementById("printBtn").addEventListener("click",()=>window.print());
+document.getElementById("resetBtn").addEventListener("click",()=>{
+ if(!confirm("Clear all answers and start again?"))return;
+ document.querySelectorAll('input[type="radio"]').forEach(x=>x.checked=false);
+ document.querySelectorAll("[data-open]").forEach(x=>x.value="");
+ document.getElementById("student").value="";
+ document.querySelectorAll(".feedback").forEach(x=>{x.className="feedback";x.textContent=""});
+ document.getElementById("results").style.display="none";updateProgress();window.scrollTo({top:0,behavior:"smooth"});
+});
+updateProgress();
+</script>
+</body>
+</html>
